@@ -2,7 +2,7 @@ Package: h5testR
 Type: Package
 Title: Tests for HDF5-backed DNAme, RNAseq, and MultiAssayExperiment objects
 Description: This package is meant as a minimal reproducible example for several issues with HDF5-backed objects in practical usage, as with complex experiments that combine bulk and single-cell of multiple types from multiple samples, not always uniformly across samples, timepoints, assays, or cellular resolution. Additional hooks for SQLDataFrame and/or restfulSE testing will be added over time.
-Version: 0.1.5
+Version: 0.1.6
 Date: 2020-05-24
 Authors@R: person("Tim", "Triche, Jr.", role=c("aut", "cre"), email="trichelab@gmail.com")
 Author: Tim Triche, Jr. [aut, cre]
