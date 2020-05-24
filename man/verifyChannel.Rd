@@ -19,7 +19,7 @@ verifyChannel(ch = c("Red", "Green"), ram, hdf5, rows = NULL)
 a logical of length one
 }
 \description{
-Verify that a channel of an HDF5 RGChannelSet matches its in-core twin.
+FIXME: allow for extended channels
 }
 \seealso{
 read.methdf5

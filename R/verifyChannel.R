@@ -1,5 +1,7 @@
 #' Verify that a channel of an HDF5 RGChannelSet matches its in-core twin.
 #' 
+#' FIXME: allow for extended channels
+#' 
 #' @param ch        the channel name ("Red" or "Green") 
 #' @param ram       the in-core RGChannelSet
 #' @param hdf5      the hdf5-backed RGChannelSet
@@ -19,9 +21,7 @@ verifyChannel <- function(ch=c("Red","Green"), ram, hdf5, rows=NULL) {
     i <- seq(1, rows)
   }
   ch <- match.arg(ch)
-  funs <- c(Red=minfi::getRed, 
-            Green=minfi::getGreen)
-  identical(as.matrix(funs[ch](hdf5[i, j])),
-            as.matrix(funs[ch](ram[i, j])))
+  fn <- ifelse(ch == "Red", minfi::getRed, minfi::getGreen)
+  identical(as.matrix(fn(hdf5[i, j])), fn(ram[i, j]))
 
 }
