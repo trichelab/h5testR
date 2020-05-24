@@ -23,6 +23,8 @@
 #'   sheet <- read.metharray.sheet(baseDir)
 #'   inCore <- read.metharray(basenames=sheet[1, "Basename", drop=FALSE])
 #'   outOfCore <- read.methdf5(basenames=sheet[1, "Basename", drop=FALSE])
+#'   stopifnot(identical(dim(inCore), dim(outOfCore)))
+#'   verifyRGsets(ram=inCore, hdf5=outOfCore)
 #' }
 #'
 #' # set TRUE for real test
@@ -60,10 +62,9 @@
 #'   outOfCore <- read.methdf5(basenames=stubs[indices])
 #'   saveHDF5SummarizedExperiment(outOfCore, dir="TARGET_RGset", replace=TRUE)
 #'   outOfCore <- loadHDF5SummarizedExperiment(dir="TARGET_RGset")
-#' 
 #'   inCore <- read.metharray(basenames=stubs[indices])
-#'   stopifnot(identical(dim(inCore), dim(outOfCore)))
 #' 
+#'   stopifnot(identical(dim(inCore), dim(outOfCore)))
 #'   verifyRGsets(ram=inCore, hdf5=outOfCore)
 #' 
 #' } 
