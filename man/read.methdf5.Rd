@@ -39,13 +39,13 @@ RUN_TARGET_EPIC <- FALSE
 if (RUN_TARGET_EPIC) {
 
   if (!file.exists("GSE124413/GSE124413_RAW.tar")) {
-    message("Warning: you are about to download 7GB of compressed IDATs(!)") 
-    message("Exit *NOW* if you do not have the space or desire to do so(!)")
+    message("Warning: you are about to download 7GB of compressed IDATs.") 
+    message("Exit *NOW* if you do not have the space or desire to do so.")
     getGEOSuppFiles("GSE124413") 
   } 
 
   # ...time passes...
-  if (length(list.files(patt="GSM3532678_200989060236_R08C01.*idat")) < 2) {
+  if (length(list.files(patt="GSM3532678_200989060236_R08C01_")) < 2) {
     untar("GSE124413/GSE124413_RAW.tar")
   }
 
@@ -56,9 +56,9 @@ RUN_TARGET_HOWMANY <- 10
 
 if (RUN_TARGET_EPIC) { 
 
-  stubs <- unique(gsub("_(Grn|Red).idat.gz", "", list.files(patt="idat.gz")))
-
   set.seed(123) 
+  files <- list.files(patt="idat.gz")))
+  stubs <- unique(gsub("_(Grn|Red).idat.gz", "", files))
   basenames <- sample(stubs, RUN_TARGET_HOWMANY)
 
   outOfCore <- read.methdf5(basenames=stubs[indices])
@@ -73,7 +73,7 @@ if (RUN_TARGET_EPIC) {
     idx <- seq(1, ncol(ram))
     funs <- c(Red=getRed, Green=getGreen)
     identical(as.matrix(funs[channel](hdf5[chunk, chunk])),
-              funs[channel
+              as.matrix(funs[channel](ram[chunk, chunk])))
   }
   
   # FIXME: refactor this as a unit test 
@@ -81,9 +81,16 @@ if (RUN_TARGET_EPIC) {
     stopifnot(identical(ncol(ram), ncol(hdf5)))
     stopifnot(identical(nrow(ram), nrow(hdf5)))
     for (ch in assayNames(hdf5)) { 
-      
+      message("Testing ", ch, " channel...", appendLF=FALSE)
+      if (verifyChannel(ch, ram, hdf5)) {
+        message("OK.")
+      } else { 
+        message("FAILED.")
+      }
     } 
   }
+
+  verifyRGsets(ram=inCore, hdf5=outOfCore)
 
 } 
 
