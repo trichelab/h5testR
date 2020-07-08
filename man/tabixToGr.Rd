@@ -4,21 +4,26 @@
 \alias{tabixToGr}
 \title{Scan a single Tabix'ed file's ranges (only!) into a GRanges object.}
 \usage{
-tabixToGr(tf, verbose = TRUE, ...)
+tabixToGr(tf, verbose = TRUE, is0based = TRUE, ...)
 }
 \arguments{
-\item{tf}{Tabix'ed file (either a character(1) or a TabixFile)}
+\item{tf}{a tabix'ed file (either a character(1) or a TabixFile)}
 
 \item{verbose}{Provide feedback on which file is being read? (TRUE)}
+
+\item{is0based}{Are the intervals in the tabixed file 0-based? (TRUE)}
 
 \item{...}{other arguments to pass to Rsamtools::TabixFile()}
 }
 \value{
-\preformatted{       a GRanges
-}
+a GRanges
 }
 \description{
 Modified from a prototype originally by Wanding Zhou (github.com/zwdzwd).
 One useful ... argument is yieldSize, e.g. yieldSize=1e4, to avoid wedging.
 Another useful ... argument is index, if not the usual tf.tbi scheme.
+}
+\details{
+Beware: the parameter 'is0based' may be extremely important for your usage.
+It is a good idea to look at the returned GRanges object to ensure this.
 }

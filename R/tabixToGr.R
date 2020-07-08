@@ -4,27 +4,36 @@
 #' One useful ... argument is yieldSize, e.g. yieldSize=1e4, to avoid wedging.
 #' Another useful ... argument is index, if not the usual tf.tbi scheme. 
 #'
-#' @param  tf         Tabix'ed file (either a character(1) or a TabixFile)
+#' @param  tf         a tabix'ed file (either a character(1) or a TabixFile)
 #' @param  verbose    Provide feedback on which file is being read? (TRUE) 
+#' @param  is0based   Are the intervals in the tabixed file 0-based? (TRUE)
 #' @param  ...        other arguments to pass to Rsamtools::TabixFile()
 #'
-#' @return            a GRanges
+#' @details
+#'
+#' Beware: the parameter 'is0based' may be extremely important for your usage. 
+#' It is a good idea to look at the returned GRanges object to ensure this.
+#' 
+#' @return a GRanges
 #'
 #' @import Rsamtools
 #'
 #' @export
-tabixToGr <- function(tf, verbose=TRUE, ...) {
+tabixToGr <- function(tf, verbose=TRUE, is0based=TRUE, ...) {
 
   if (!is(tf, "TabixFile")) tf <- Rsamtools::TabixFile(tf, ...)
   if (!file.exists(Rsamtools::index(tf))) stop("Your file lacks an index!")
-
-  if (verbose) message("Reading GRanges from ", path(tf))
+  if (verbose) message("Reading GRanges from ", basename(path(tf)))
+  
   chrs <- Rsamtools::headerTabix(tf)$seqnames
   cols <- Rsamtools::headerTabix(tf)$indexColumns
-  what <- list("character", "integer", "integer")
-  names(what) <- c("seqnames", "start", "end")
-  tfdf <- as.data.frame(scan(path(tf), what=what, sep="\t", flush=TRUE))  
-  makeGRangesFromDataFrame(tfdf, starts.in.df.are.0based=TRUE)
+  what <- as.list(rep("character", max(cols)))
+  what[cols[2:3]] <- "integer" # start, end 
+  names(what) <- rep("ignore", length(what))
+  names(what)[cols] <- c("seqnames", "start", "end")
+ 
+  tfdf <- as.data.frame(scan(path(tf), what=what, sep="\t", flush=TRUE))[, cols]
+  makeGRangesFromDataFrame(tfdf, starts.in.df.are.0based=is0based)
 
 }
 
