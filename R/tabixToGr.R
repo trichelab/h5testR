@@ -33,6 +33,9 @@ tabixToGr <- function(tf, verbose=TRUE, is0based=TRUE, ...) {
   names(what)[cols] <- c("seqnames", "start", "end")
  
   tfdf <- as.data.frame(scan(path(tf), what=what, sep="\t", flush=TRUE))[, cols]
+  tfdf$start <- as.integer(tfdf$start) # some GTFs have bogus start/end ranges
+  tfdf$end <- as.integer(tfdf$end)     # so we coerce them here and then subset
+  tfdf <- subset(tfdf, !is.na(seqnames) & !is.na(start) & !is.na(end))
   makeGRangesFromDataFrame(tfdf, starts.in.df.are.0based=is0based)
 
 }
