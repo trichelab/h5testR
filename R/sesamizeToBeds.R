@@ -21,6 +21,7 @@
 #' @import rtracklayer
 #' @import GenomicFiles
 #' @import BiocParallel
+#' @import sesame
 #' 
 #' @details
 #' 
