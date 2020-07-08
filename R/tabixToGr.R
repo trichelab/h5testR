@@ -37,6 +37,7 @@ tabixToGr <- function(tf, verbose=TRUE, ...) {
 #' @return a GRanges
 #'
 #' @import Rsamtools
+#' @import GenomicRanges
 #'
 #' @examples
 #' \dontrun{
@@ -48,7 +49,7 @@ tabixToGr <- function(tf, verbose=TRUE, ...) {
 tabixFileListToGr <- function(tfl, verbose=TRUE) {
 
   if (!is(tfl, "TabixFileList")) tfl <- TabixFileList(lapply(tfl, TabixFile))
-  Reduce(union, lapply(tfl, tabixToGr, verbose=verbose))
+  Reduce(GenomicRanges::union, lapply(tfl, tabixToGr, verbose=verbose))
 
 }
 
