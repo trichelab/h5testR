@@ -2,6 +2,8 @@
 #' 
 #' see sesamizeToBeds for an easy way to go from IDATs to tabixed BED files. 
 #' 
+#' TODO: pull down the seqinfo for a genome assembly and add it to rowRanges
+#' 
 #' @param beds    a character vector of files or data.frame with the column $bed
 #' @param rr      rowRanges for GenomicFiles object (default: union BED ranges)
 #' @param cd      colData for GenomicFiles object (default: skeletal info)
@@ -11,6 +13,7 @@
 #' 
 #' @import rtracklayer
 #' @import GenomicFiles
+#' @import GenomeInfoDb
 #' 
 #' @examples
 #'

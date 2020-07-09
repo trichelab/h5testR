@@ -21,6 +21,9 @@ a GenomicFiles object
 \description{
 see sesamizeToBeds for an easy way to go from IDATs to tabixed BED files.
 }
+\details{
+TODO: pull down the seqinfo for a genome assembly and add it to rowRanges
+}
 \examples{
 
 # median methylation across a range
